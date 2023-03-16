@@ -13,17 +13,17 @@ public class Account {
     private String username;
     private String password;
     private String displayname;
-    private String type;
+    private boolean role;
 
     public Account() {
     }
 
-    public Account(int accid, String username, String password, String displayname, String type) {
+    public Account(int accid, String username, String password, String displayname, boolean role) {
         this.accid = accid;
         this.username = username;
         this.password = password;
         this.displayname = displayname;
-        this.type = type;
+        this.role = role;
     }
 
     public int getAccid() {
@@ -58,12 +58,12 @@ public class Account {
         this.displayname = displayname;
     }
 
-    public String getType() {
-        return type;
+    public boolean isRole() {
+        return role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(boolean role) {
+        this.role = role;
     }
-    
+       
 }
