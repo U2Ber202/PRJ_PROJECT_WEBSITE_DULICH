@@ -9,6 +9,7 @@ package model;
  * @author tedok
  */
 public class Account {
+    private int accid;
     private String username;
     private String password;
     private String displayname;
@@ -17,11 +18,20 @@ public class Account {
     public Account() {
     }
 
-    public Account(String username, String password, String displayname, String type) {
+    public Account(int accid, String username, String password, String displayname, String type) {
+        this.accid = accid;
         this.username = username;
         this.password = password;
         this.displayname = displayname;
         this.type = type;
+    }
+
+    public int getAccid() {
+        return accid;
+    }
+
+    public void setAccid(int accid) {
+        this.accid = accid;
     }
 
     public String getUsername() {

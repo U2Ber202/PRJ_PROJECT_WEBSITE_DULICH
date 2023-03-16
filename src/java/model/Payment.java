@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author tedok
  */
 public class Payment {
+    private int no;
     private Customer customer;
     private Date date;
     private float amount;
@@ -18,10 +19,19 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Customer customer, Date date, float amount) {
+    public Payment(int no, Customer customer, Date date, float amount) {
+        this.no = no;
         this.customer = customer;
         this.date = date;
         this.amount = amount;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public Customer getCustomer() {
