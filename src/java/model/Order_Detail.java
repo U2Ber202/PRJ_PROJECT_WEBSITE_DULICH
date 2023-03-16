@@ -9,6 +9,7 @@ package model;
  * @author tedok
  */
 public class Order_Detail {
+    private int odno;
     private Order order;
     private Tour tour;
     private int quanity;
@@ -17,11 +18,20 @@ public class Order_Detail {
     public Order_Detail() {
     }
 
-    public Order_Detail(Order order, Tour tour, int quanity, float total) {
+    public Order_Detail(int odno, Order order, Tour tour, int quanity, float total) {
+        this.odno = odno;
         this.order = order;
         this.tour = tour;
         this.quanity = quanity;
         this.total = total;
+    }
+
+    public int getOdno() {
+        return odno;
+    }
+
+    public void setOdno(int odno) {
+        this.odno = odno;
     }
 
     public Order getOrder() {
