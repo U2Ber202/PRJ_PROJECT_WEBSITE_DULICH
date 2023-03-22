@@ -2,22 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.auth;
+package controller.edit;
 
-import dal.AccountDBContext;
+import dal.EditDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
+import model.Tour;
 
 /**
  *
  * @author tedok
  */
-public class LoginController extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
+
+    EditDAO edit = new EditDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,6 +32,7 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,7 +47,14 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        try {
+            Tour tour = edit.getTourById(id);
+            request.setAttribute("tour", tour);
+            request.getRequestDispatcher("/view/emp/update.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            System.err.println(e);
+        }
     }
 
     /**
@@ -58,20 +68,19 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String mess = "success";
-        AccountDBContext db = new  AccountDBContext();
-        Account account = db.get(username, password);
-        if(account!=null){
-            if(!account.isEmployee()){
-                response.getWriter().println("customer");
-            }
-                else{
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        int day = Integer.parseInt(request.getParameter("day"));
+        int night = Integer.parseInt(request.getParameter("night"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        String description = request.getParameter("desc");
+        String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        try {
+                edit.update(id, name, day, night, price, description, from, to);
                 response.sendRedirect("edit");
-                        }
-        }else{
-                response.getWriter().println("Not found");
+        } catch (NumberFormatException e) {
+            System.err.println(e);
         }
     }
 

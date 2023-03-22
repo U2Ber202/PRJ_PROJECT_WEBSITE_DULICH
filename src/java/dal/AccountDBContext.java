@@ -21,7 +21,7 @@ public class AccountDBContext extends DBContext<Account>{
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            String sql = "SELECT username,displayname FROM Account WHERE \n"
+            String sql = "SELECT * FROM Account WHERE \n"
                     + "username = ? AND [password] = ?";
              stm = connection.prepareStatement(sql);
              stm.setString(1, username);
@@ -33,7 +33,7 @@ public class AccountDBContext extends DBContext<Account>{
                 account.setUsername(username);
                 account.setPassword(password);
                 account.setDisplayname(rs.getString(4));
-                account.setRole(rs.getBoolean(5));
+                account.setEmployee(rs.getBoolean(5));
                 return account;
             }
         } catch (SQLException ex) {

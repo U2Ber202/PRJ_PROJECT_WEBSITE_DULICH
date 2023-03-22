@@ -13,7 +13,8 @@ import java.sql.Date;
 public class Tour {
     private int tourid;
     private String tourname;
-    private Date tourdate;
+    private int tourday;
+    private int tournight;
     private float tourprice;
     private String tourdescip;
     private int tourrate;
@@ -23,16 +24,18 @@ public class Tour {
     public Tour() {
     }
 
-    public Tour(int tourid, String tourname, Date tourdate, float tourprice, String tourdescip, int tourrate, String from, String to) {
+    public Tour(int tourid, String tourname, int tourday, int tournight, float tourprice, String tourdescip, int tourrate, String from, String to) {
         this.tourid = tourid;
         this.tourname = tourname;
-        this.tourdate = tourdate;
+        this.tourday = tourday;
+        this.tournight = tournight;
         this.tourprice = tourprice;
         this.tourdescip = tourdescip;
         this.tourrate = tourrate;
         this.from = from;
         this.to = to;
     }
+
 
     public int getTourid() {
         return tourid;
@@ -50,12 +53,20 @@ public class Tour {
         this.tourname = tourname;
     }
 
-    public Date getTourdate() {
-        return tourdate;
+    public int getTourday() {
+        return tourday;
     }
 
-    public void setTourdate(Date tourdate) {
-        this.tourdate = tourdate;
+    public void setTourday(int tourday) {
+        this.tourday = tourday;
+    }
+
+    public int getTournight() {
+        return tournight;
+    }
+
+    public void setTournight(int tournight) {
+        this.tournight = tournight;
     }
 
     public float getTourprice() {

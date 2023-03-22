@@ -2,22 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.auth;
+package controller.edit;
 
-import dal.AccountDBContext;
+import dal.EditDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
+import java.util.ArrayList;
+import model.Tour;
 
 /**
  *
  * @author tedok
  */
-public class LoginController extends HttpServlet {
+public class EditController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,6 +30,11 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        EditDAO edit = new EditDAO();
+        ArrayList<Tour> tour = edit.findAllTour();
+        request.setAttribute("tour", tour);
+        request.getRequestDispatcher("view/emp/edit.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,7 +49,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -58,21 +63,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String mess = "success";
-        AccountDBContext db = new  AccountDBContext();
-        Account account = db.get(username, password);
-        if(account!=null){
-            if(!account.isEmployee()){
-                response.getWriter().println("customer");
-            }
-                else{
-                response.sendRedirect("edit");
-                        }
-        }else{
-                response.getWriter().println("Not found");
-        }
+        processRequest(request, response);
     }
 
     /**

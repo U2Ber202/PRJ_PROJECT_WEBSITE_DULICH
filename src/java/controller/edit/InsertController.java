@@ -2,22 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.auth;
+package controller.edit;
 
-import dal.AccountDBContext;
+import dal.EditDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
 
 /**
  *
  * @author tedok
  */
-public class LoginController extends HttpServlet {
+public class InsertController extends HttpServlet {
+
+    EditDAO edit = new EditDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +45,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        request.getRequestDispatcher("view/emp/insert.jsp").forward(request, response);
     }
 
     /**
@@ -58,20 +59,27 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String mess = "success";
-        AccountDBContext db = new  AccountDBContext();
-        Account account = db.get(username, password);
-        if(account!=null){
-            if(!account.isEmployee()){
-                response.getWriter().println("customer");
-            }
-                else{
+        String name = request.getParameter("name");
+        int day = Integer.parseInt(request.getParameter("day"));
+        int night = Integer.parseInt(request.getParameter("night"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        String description = request.getParameter("desc");
+        String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        try {
+            if (!edit.isTourDuplicate(name, day, night, price, description, from, to)) {
+                edit.insert(name, day, night, price, description, from, to);
                 response.sendRedirect("edit");
-                        }
-        }else{
-                response.getWriter().println("Not found");
+            } else {
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html");
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('New Tour already have!!!');");
+                out.println("</script>");
+                response.sendRedirect("insert");
+            }
+        } catch (NumberFormatException e) {
+            System.err.println(e);
         }
     }
 
